@@ -1,0 +1,190 @@
+[
+ {
+  "id": "e01",
+  "difficulty": "easy",
+  "question": "How many customers do we have?",
+  "sql": "SELECT COUNT(*) AS customers FROM customers"
+ },
+ {
+  "id": "e02",
+  "difficulty": "easy",
+  "question": "How many product categories are there?",
+  "sql": "SELECT COUNT(*) FROM categories"
+ },
+ {
+  "id": "e03",
+  "difficulty": "easy",
+  "question": "What was total revenue in 2025?",
+  "sql": "SELECT ROUND(SUM(oi.line_total),2) FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled' AND o.order_date >= '2025-01-01' AND o.order_date < '2026-01-01'"
+ },
+ {
+  "id": "e04",
+  "difficulty": "easy",
+  "question": "How many orders were cancelled in total?",
+  "sql": "SELECT COUNT(*) FROM orders WHERE status = 'cancelled'"
+ },
+ {
+  "id": "e05",
+  "difficulty": "easy",
+  "question": "How many customers are in each segment?",
+  "sql": "SELECT segment, COUNT(*) FROM customers GROUP BY segment"
+ },
+ {
+  "id": "e06",
+  "difficulty": "easy",
+  "question": "What is the most expensive product by list price?",
+  "sql": "SELECT product_name, list_price FROM products ORDER BY list_price DESC LIMIT 1"
+ },
+ {
+  "id": "e07",
+  "difficulty": "easy",
+  "question": "How many orders came through each channel?",
+  "sql": "SELECT channel, COUNT(*) FROM orders WHERE status <> 'cancelled' GROUP BY channel"
+ },
+ {
+  "id": "e08",
+  "difficulty": "easy",
+  "question": "How many customers have no email address on file?",
+  "sql": "SELECT COUNT(*) FROM customers WHERE email IS NULL"
+ },
+ {
+  "id": "e09",
+  "difficulty": "easy",
+  "question": "What was the total refund amount across all returns?",
+  "sql": "SELECT ROUND(SUM(refund_amount),2) FROM returns"
+ },
+ {
+  "id": "e10",
+  "difficulty": "easy",
+  "question": "How many customers are based in Missouri?",
+  "sql": "SELECT COUNT(*) FROM customers WHERE state = 'MO'"
+ },
+ {
+  "id": "e11",
+  "difficulty": "easy",
+  "question": "What was total revenue in 2024?",
+  "sql": "SELECT ROUND(SUM(oi.line_total),2) FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled' AND o.order_date >= '2024-01-01' AND o.order_date < '2025-01-01'"
+ },
+ {
+  "id": "e12",
+  "difficulty": "easy",
+  "question": "How many units were sold in total?",
+  "sql": "SELECT SUM(oi.quantity) FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled'"
+ },
+ {
+  "id": "m01",
+  "difficulty": "medium",
+  "question": "What was monthly revenue in 2025?",
+  "order_matters": true,
+  "sql": "SELECT DATE_TRUNC('month', o.order_date)::date AS month, ROUND(SUM(oi.line_total),2) FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled' AND o.order_date >= '2025-01-01' AND o.order_date < '2026-01-01' GROUP BY 1 ORDER BY 1"
+ },
+ {
+  "id": "m02",
+  "difficulty": "medium",
+  "question": "Which 5 product categories generated the most revenue overall?",
+  "order_matters": true,
+  "sql": "SELECT c.category_name, ROUND(SUM(oi.line_total),2) AS rev FROM orders o JOIN order_items oi USING (order_id) JOIN products p USING (product_id) JOIN categories c USING (category_id) WHERE o.status <> 'cancelled' GROUP BY c.category_name ORDER BY rev DESC LIMIT 5"
+ },
+ {
+  "id": "m03",
+  "difficulty": "medium",
+  "question": "What is the average order value by channel?",
+  "sql": "SELECT o.channel, ROUND(SUM(oi.line_total) / COUNT(DISTINCT o.order_id), 2) FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled' GROUP BY o.channel"
+ },
+ {
+  "id": "m04",
+  "difficulty": "medium",
+  "question": "Who are the top 10 customers by total revenue?",
+  "order_matters": true,
+  "sql": "SELECT c.customer_id, ROUND(SUM(oi.line_total),2) AS rev FROM orders o JOIN order_items oi USING (order_id) JOIN customers c USING (customer_id) WHERE o.status <> 'cancelled' GROUP BY c.customer_id ORDER BY rev DESC LIMIT 10"
+ },
+ {
+  "id": "m05",
+  "difficulty": "medium",
+  "question": "How many returns were there for each return reason?",
+  "sql": "SELECT reason, COUNT(*) FROM returns GROUP BY reason"
+ },
+ {
+  "id": "m06",
+  "difficulty": "medium",
+  "question": "What was revenue by customer state, highest first?",
+  "order_matters": true,
+  "sql": "SELECT c.state, ROUND(SUM(oi.line_total),2) AS rev FROM orders o JOIN order_items oi USING (order_id) JOIN customers c USING (customer_id) WHERE o.status <> 'cancelled' GROUP BY c.state ORDER BY rev DESC"
+ },
+ {
+  "id": "m07",
+  "difficulty": "medium",
+  "question": "What was total gross profit in 2025?",
+  "sql": "SELECT ROUND(SUM(oi.line_total) - SUM(oi.quantity * p.unit_cost), 2) FROM orders o JOIN order_items oi USING (order_id) JOIN products p USING (product_id) WHERE o.status <> 'cancelled' AND o.order_date >= '2025-01-01' AND o.order_date < '2026-01-01'"
+ },
+ {
+  "id": "m08",
+  "difficulty": "medium",
+  "question": "Which 5 products sold the most units?",
+  "order_matters": true,
+  "sql": "SELECT p.product_name, SUM(oi.quantity) AS units FROM orders o JOIN order_items oi USING (order_id) JOIN products p USING (product_id) WHERE o.status <> 'cancelled' GROUP BY p.product_name ORDER BY units DESC LIMIT 5"
+ },
+ {
+  "id": "m09",
+  "difficulty": "medium",
+  "question": "What was quarterly revenue across 2024 and 2025?",
+  "order_matters": true,
+  "sql": "SELECT DATE_TRUNC('quarter', o.order_date)::date, ROUND(SUM(oi.line_total),2) FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled' GROUP BY 1 ORDER BY 1"
+ },
+ {
+  "id": "m10",
+  "difficulty": "medium",
+  "question": "What was the total refund amount by product category?",
+  "sql": "SELECT c.category_name, ROUND(SUM(r.refund_amount),2) FROM returns r JOIN order_items oi USING (order_item_id) JOIN products p USING (product_id) JOIN categories c USING (category_id) GROUP BY c.category_name"
+ },
+ {
+  "id": "h01",
+  "difficulty": "hard",
+  "question": "What was the month-over-month revenue growth percentage for each month of 2025?",
+  "order_matters": true,
+  "sql": "WITH m AS (SELECT DATE_TRUNC('month', o.order_date)::date AS month, SUM(oi.line_total) AS rev FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled' GROUP BY 1), g AS (SELECT month, ROUND(100.0 * (rev - LAG(rev) OVER (ORDER BY month)) / LAG(rev) OVER (ORDER BY month), 1) AS growth_pct FROM m) SELECT month, growth_pct FROM g WHERE month >= '2025-01-01' AND month < '2026-01-01' ORDER BY month"
+ },
+ {
+  "id": "h02",
+  "difficulty": "hard",
+  "question": "What is the return rate (returned lines as a percentage of delivered order lines) by product category?",
+  "sql": "SELECT c.category_name, ROUND(100.0 * COUNT(r.return_id) / COUNT(*), 1) FROM orders o JOIN order_items oi USING (order_id) JOIN products p USING (product_id) JOIN categories c USING (category_id) LEFT JOIN returns r ON r.order_item_id = oi.order_item_id WHERE o.status = 'delivered' GROUP BY c.category_name"
+ },
+ {
+  "id": "h03",
+  "difficulty": "hard",
+  "question": "How many new customers placed their first order in each month of 2025?",
+  "order_matters": true,
+  "sql": "WITH f AS (SELECT customer_id, MIN(order_date) AS first_order FROM orders WHERE status <> 'cancelled' GROUP BY customer_id) SELECT DATE_TRUNC('month', first_order)::date, COUNT(*) FROM f WHERE first_order >= '2025-01-01' AND first_order < '2026-01-01' GROUP BY 1 ORDER BY 1"
+ },
+ {
+  "id": "h04",
+  "difficulty": "hard",
+  "question": "What share of revenue (percent) came from each channel in 2024 and in 2025?",
+  "sql": "WITH r AS (SELECT EXTRACT(YEAR FROM o.order_date)::int AS yr, o.channel, SUM(oi.line_total) AS rev FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled' GROUP BY 1,2) SELECT yr, channel, ROUND(100.0 * rev / SUM(rev) OVER (PARTITION BY yr), 1) FROM r"
+ },
+ {
+  "id": "h05",
+  "difficulty": "hard",
+  "question": "Which product category had the highest gross profit margin percentage?",
+  "sql": "SELECT c.category_name, ROUND(100.0 * (SUM(oi.line_total) - SUM(oi.quantity * p.unit_cost)) / SUM(oi.line_total), 1) AS margin FROM orders o JOIN order_items oi USING (order_id) JOIN products p USING (product_id) JOIN categories c USING (category_id) WHERE o.status <> 'cancelled' GROUP BY c.category_name ORDER BY margin DESC LIMIT 1"
+ },
+ {
+  "id": "h06",
+  "difficulty": "hard",
+  "question": "How many customers placed orders in both 2024 and 2025?",
+  "sql": "SELECT COUNT(*) FROM (SELECT customer_id FROM orders WHERE status <> 'cancelled' GROUP BY customer_id HAVING BOOL_OR(order_date < '2025-01-01') AND BOOL_OR(order_date >= '2025-01-01')) x"
+ },
+ {
+  "id": "h07",
+  "difficulty": "hard",
+  "question": "For each customer segment, what was average order value in 2024 and in 2025?",
+  "sql": "SELECT c.segment, EXTRACT(YEAR FROM o.order_date)::int AS yr, ROUND(SUM(oi.line_total) / COUNT(DISTINCT o.order_id), 2) FROM orders o JOIN order_items oi USING (order_id) JOIN customers c USING (customer_id) WHERE o.status <> 'cancelled' GROUP BY 1,2"
+ },
+ {
+  "id": "h08",
+  "difficulty": "hard",
+  "question": "What was net revenue (revenue minus refunds) in 2025?",
+  "sql": "SELECT ROUND((SELECT SUM(oi.line_total) FROM orders o JOIN order_items oi USING (order_id) WHERE o.status <> 'cancelled' AND o.order_date >= '2025-01-01' AND o.order_date < '2026-01-01') - (SELECT SUM(r.refund_amount) FROM returns r JOIN order_items oi USING (order_item_id) JOIN orders o USING (order_id) WHERE o.status <> 'cancelled' AND o.order_date >= '2025-01-01' AND o.order_date < '2026-01-01'), 2)"
+ }
+]

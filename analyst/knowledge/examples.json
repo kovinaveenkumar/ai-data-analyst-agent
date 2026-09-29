@@ -1,0 +1,18 @@
+[
+  {
+    "question": "How many orders were placed on the mobile channel in 2024?",
+    "sql": "SELECT COUNT(*) AS order_count FROM orders WHERE channel = 'mobile' AND status <> 'cancelled' AND order_date >= DATE '2024-01-01' AND order_date < DATE '2025-01-01';"
+  },
+  {
+    "question": "Revenue by customer segment",
+    "sql": "SELECT c.segment, ROUND(SUM(oi.line_total), 2) AS total_revenue FROM orders o JOIN order_items oi ON oi.order_id = o.order_id JOIN customers c ON c.customer_id = o.customer_id WHERE o.status <> 'cancelled' GROUP BY c.segment ORDER BY total_revenue DESC;"
+  },
+  {
+    "question": "Weekly order count in March 2025",
+    "sql": "SELECT DATE_TRUNC('week', order_date)::date AS week_start, COUNT(*) AS order_count FROM orders WHERE status <> 'cancelled' AND order_date >= DATE '2025-03-01' AND order_date < DATE '2025-04-01' GROUP BY 1 ORDER BY 1;"
+  },
+  {
+    "question": "Which 3 products have the highest refund totals?",
+    "sql": "SELECT p.product_name, ROUND(SUM(r.refund_amount), 2) AS total_refunds FROM returns r JOIN order_items oi ON oi.order_item_id = r.order_item_id JOIN products p ON p.product_id = oi.product_id GROUP BY p.product_name ORDER BY total_refunds DESC LIMIT 3;"
+  }
+]

@@ -1,0 +1,17 @@
+# Core
+anthropic==1.9.0
+mcp==2.2.0
+psycopg[binary]==3.3.6
+sqlglot==30.20.0
+python-dotenv==1.2.3
+
+# App, charts, reports
+streamlit==1.64.0
+pandas==3.0.6
+plotly==7.1.0
+fpdf2==2.8.9
+matplotlib==3.11.2
+tabulate==0.10.0
+
+# Tests
+pytest==9.1.1
