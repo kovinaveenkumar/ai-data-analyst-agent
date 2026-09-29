@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "analytics": {
+      "command": "python",
+      "args": ["-m", "analyst.mcp_server.server", "--transport", "stdio"]
+    }
+  }
+}
