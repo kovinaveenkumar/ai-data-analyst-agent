@@ -5,7 +5,6 @@ through a read-only **MCP server** on PostgreSQL, and explains the answer with a
 
 ![CI](https://github.com/kovinaveenkumar/ai-data-analyst-agent/actions/workflows/ci.yml/badge.svg)
 
-**Live demo:** _add link_ · **Demo video:** _add link_
 
 **Case study (PDF):** [Read the full case study](docs/case_study.pdf)
 
