@@ -7,6 +7,8 @@ through a read-only **MCP server** on PostgreSQL, and explains the answer with a
 
 **Live demo:** _add link_ · **Demo video:** _add link_
 
+**Case study (PDF):** [Read the full case study](docs/case_study.pdf)
+
 <!-- Add a GIF here: docs/demo.gif -->
 
 ---
